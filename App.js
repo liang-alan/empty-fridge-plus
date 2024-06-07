@@ -1,69 +1,36 @@
-// App.js
-import {useState} from 'react';
-import { SafeAreaView, StyleSheet, FlatList, Text, Dimensions, Platform} from 'react-native';
-import Search from './assets/parts/Search';
-import SearchResults from './assets/parts/SearchResults';
-import { DeviceProvider } from './assets/scripts/DeviceContext';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import AddIngredientsPage from './assets/pages/AddIngredientsPage';
+import MyIngredientsPage from './assets/pages/MyIngredientsPage';
+import PreferencesPage from './assets/pages/PreferencesPage';
+import MyCart from './assets/scripts/MyCart';
 
-const API_KEY = '0ca4a2ed351b48c4b86c89ea04848b8c';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [ingredients, setIngredients] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  const handleSearch = (query) => {
-    // make get request to https://api.spoonacular.com/food/ingredients/search
-    fetch(`https://api.spoonacular.com/food/ingredients/search?apiKey=${API_KEY}&query=${searchQuery}&number=50`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.results);
-        setIngredients(data.results);
-    
-      });
-  };
-
-  const clearSearch = () => {
-
-  };
-
-  const onChangeText = (text) => {
-    setSearchQuery(text);
-  }
-
- 
   return (
-    <DeviceProvider>
-      <SafeAreaView style={styles.container}>
-        <Search
-          value={searchQuery}
-          onClear={clearSearch}
-          onChangeText={onChangeText}
-          handleSearch={handleSearch}
-        />
-        <SearchResults data={ingredients} num={ingredients.length} />
-      </SafeAreaView>
-    </DeviceProvider>
+    <MyCart.Provider value={[cart, setCart]}>
+      <NavigationContainer>
+        <SafeAreaView style={styles.container}>
+          <Tab.Navigator>
+            <Tab.Screen name="Add Ingredients" component={AddIngredientsPage} />
+            <Tab.Screen name="My Ingredients" component={MyIngredientsPage} />
+            <Tab.Screen name="Preferences" component={PreferencesPage} />
+          </Tab.Navigator>
+        </SafeAreaView>
+      </NavigationContainer>
+    </MyCart.Provider>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    flex: 1, // Make sure the SafeAreaView covers the entire screen
   },
 });
 
