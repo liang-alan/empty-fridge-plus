@@ -1,5 +1,5 @@
 import { View, Modal, StyleSheet, Dimensions, Text, Pressable, Image} from 'react-native';
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import FindRecipe from '../parts/FindRecipe';
 import FindRecipeResults from '../parts/FindRecipeResults';
 import MyCart from '../scripts/MyCart';
@@ -8,6 +8,8 @@ const { width } = Dimensions.get('window');
 
 
 export default function FindRecipePage() {
+
+
     const [recipeData, setRecipeData] = useState([]);
     const [cart, setCart] = useContext(MyCart);
     const [modalVisible, setModalVisible] = useState(false);
@@ -18,16 +20,25 @@ export default function FindRecipePage() {
             console.log("Cart is empty");
             return;
         }
-        fetch(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${cart.map((i) => i.name).join(",+")}&number=10&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1`,
+        // https://api.spoonacular.com/recipes/findByIngredients?ingredients=${cart.map((i) => i.name).join(",+")}&number=10&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1
+        fetch(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${cart.map((i) => i.name).join(",+")}&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1&addRecipeInstructions=true&number=10&fillIngredients=true&instructionsRequired=true&limitLicense=true&sort=max-used-ingredients&sortDirection=desc&query= `,
             {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then((response) => response.json())
+            }).then((response) =>
+            {
+                if (!response.ok) {
+                    console.log(response);
+                    return;
+                }
+                    return response.json();
+            }
+            )
             .then((data) => {
-                setRecipeData(data);
-                // console.log("New",recipeData);
+                setRecipeData(data.results);
+                console.log("Results have been found: ", recipeData);
             });
 
     }
@@ -38,10 +49,9 @@ export default function FindRecipePage() {
     }
 
     const onOpen = (recipe) => {
-        console.log("Opening recipe: ", recipe);
         setSelectedRecipe(recipe);
+        console.log(recipe.summary);
         setModalVisible(true);
-
     }
     return (
         <View>
@@ -54,12 +64,18 @@ export default function FindRecipePage() {
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.card}>
-                        <Image source={{ uri: `${selectedRecipe.image}` }} style={{ width: 150, height: 150 }} />
+                        <Image source={{ uri: `${selectedRecipe.image}` }} style={{ width: '100%', aspectRatio: 1.5  }} />
                         <Text style={styles.cardTitle}>
                             {selectedRecipe.title}
                         </Text>
                         <Text style={styles.cardText}>
-                            Filler temporary text
+                            Ready in {selectedRecipe.readyInMinutes} minutes.
+                        </Text>
+                        <Text style={styles.cardText}>
+                            This recipe uses {selectedRecipe.usedIngredientCount} of your ingredients.
+                        </Text>
+                        <Text style={styles.cardText}>
+                            You are missing {selectedRecipe.missedIngredientsCount} ingredients.
                         </Text>
                         <Pressable style={styles.closeButton} onPress={onClose}>
                             <Text style={styles.closeButtonText}>Close</Text>

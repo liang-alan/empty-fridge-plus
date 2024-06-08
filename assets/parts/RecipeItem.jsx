@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Modal , Pressable} from 'react-native';
-import {useState } from 'react';
+import {useState, memo } from 'react';
 import PercentageCircle from '../custom_icons/PercentageCircle';
 
 const width = Dimensions.get('window').width;
@@ -17,7 +17,7 @@ const InfoCard = ({ visible, onClose }) => {
                 <View style={styles.card}>
                     <Text style={styles.cardText}>
                         The left value represents the percentage of your ingredients used in the recipe.
-                        The right value represents the percentage of ingredients in the recipe you don't have.
+                        The right value represents the percentage of ingredients needed for the recipe that you don't have.
                     </Text>
                     <Pressable style={styles.closeButton} onPress={onClose}>
                         <Text style={styles.closeButtonText}>Close</Text>
@@ -38,6 +38,7 @@ const RecipeItem = ({ item, openModal }) => {
     const handleClose = () => {
         setInfoVisible(false);
     }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => openModal(item)} style={styles.row}>
@@ -98,9 +99,11 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     image: {
-        width: width / 5,
-        height: width / 7,
-        borderRadius: 8,
+        height: '80%',
+        maxWidth: 100,
+        maxHeight: 100,
+        aspectRatio: 1,
+        borderRadius: 100,
         marginRight: 10,
     },
     circle: {
@@ -137,4 +140,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default RecipeItem;
+export default memo(RecipeItem);

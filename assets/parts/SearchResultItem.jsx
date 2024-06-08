@@ -50,8 +50,10 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     image: {
-        width: width / 6,
-        height: width / 6,
+        height: '80%',
+        maxWidth: 100,
+        maxHeight: 100,
+        aspectRatio: 1,
         borderRadius: 100,
         marginRight: 10,
     },
