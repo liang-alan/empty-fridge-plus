@@ -1,5 +1,6 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import SearchResultItem from '../parts/SearchResultItem';
+import FindRecipe from '../parts/FindRecipe';
 import { useContext } from 'react';
 import MyCart from '../scripts/MyCart';
 
@@ -33,9 +34,8 @@ export default function MyIngredientsPage() {
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     ListFooterComponent={
-                        <View style={styles.footer}>
+                        <View style={styles.footer}/>
 
-                        </View>
                     }
                 />
             }
@@ -47,8 +47,7 @@ export default function MyIngredientsPage() {
 const styles = StyleSheet.create({
     resultText: {
         fontSize: 18,
-        margin: 10,
-        
+        margin: 10, 
     },
     footer: {
         marginBottom: '25%',

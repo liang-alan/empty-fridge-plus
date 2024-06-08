@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import AddIngredientsPage from './assets/pages/AddIngredientsPage';
 import MyIngredientsPage from './assets/pages/MyIngredientsPage';
-import PreferencesPage from './assets/pages/PreferencesPage';
+import FindRecipePage from './assets/pages/FindRecipePage';
 import MyCart from './assets/scripts/MyCart';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,7 +20,7 @@ const App = () => {
           <Tab.Navigator>
             <Tab.Screen name="Add Ingredients" component={AddIngredientsPage} />
             <Tab.Screen name="My Ingredients" component={MyIngredientsPage} />
-            <Tab.Screen name="Preferences" component={PreferencesPage} />
+            <Tab.Screen name="Find Recipes" component={FindRecipePage} />
           </Tab.Navigator>
         </SafeAreaView>
       </NavigationContainer>

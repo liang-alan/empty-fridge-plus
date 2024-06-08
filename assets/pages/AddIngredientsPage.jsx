@@ -11,8 +11,11 @@ export default function AddIngredientsPage() {
     const searchQuery = useRef('');
     const [ingredients, setIngredients] = useState([]);
 
-    const handleSearch = (query) => {
-        // make get request to https://api.spoonacular.com/food/ingredients/search
+    const handleSearch = () => {
+        if (!searchQuery.current.value) {
+            return;
+        }
+      
         fetch(`https://api.spoonacular.com/food/ingredients/search?apiKey=${API_KEY}&query=${searchQuery.current.value}&number=50`,
             {
                 method: 'GET',
@@ -23,7 +26,7 @@ export default function AddIngredientsPage() {
         )
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.results);
+                // console.log(data.results);
                 setIngredients(data.results);
 
             });

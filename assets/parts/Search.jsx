@@ -12,6 +12,7 @@ const Search = ({ handleSearch, textRef }) => {
             <TextInput
                 style={styles.input}
                 onChangeText={(e) => textRef.current.value = e}
+                onSubmitEditing={() => handleSearch()}
                 placeholder="Search for an ingredient..."
                 ref={textRef}
             />

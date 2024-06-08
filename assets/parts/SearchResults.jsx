@@ -26,7 +26,7 @@ const SearchResults = ({ num, data }) => {
         <View style={styles.results}>
             <FlatList
                 data={data}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={{ paddingBottom: 20 }}
                 ListFooterComponent={

@@ -28,8 +28,8 @@ const SearchResultItem = ({ item, addCart }) => {
             <Pressable onPress={() => addCart(item)}>
                 {
                     cart && cart.map((i) => i.id).includes(item.id) ? (
-                        <Icon name="checkmark-circle-outline" size={width / 12} color="#449e48" style={styles.icon} />
-                    ) : <Icon name="add-circle-outline" size={width / 12} color="#000" style={styles.icon} />
+                        <Icon name="checkmark-circle-outline" size={width/10} color="#449e48" style={styles.icon} />
+                    ) : <Icon name="add-circle-outline" size={width / 10} color="#000" style={styles.icon} />
                 }
             </Pressable>
         </View>   
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
         right: width / 75,
-        marginTop: width/-24
+        marginTop: width/-20
         // Add any other styles for the icon
     },
 });
