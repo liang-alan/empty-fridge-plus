@@ -1,8 +1,14 @@
-import { View, Modal, StyleSheet, Dimensions, Text, Pressable, Image} from 'react-native';
+import { View, Modal, StyleSheet, Dimensions, Text, Pressable, Image } from 'react-native';
+import 'react-native-gesture-handler';
 import {useState, useContext, useEffect} from 'react';
 import FindRecipe from '../parts/FindRecipe';
 import FindRecipeResults from '../parts/FindRecipeResults';
 import MyCart from '../scripts/MyCart';
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
+import RecipeInfoPage from './RecipeInfoPage';
 
 const { width } = Dimensions.get('window');
 
@@ -14,6 +20,7 @@ export default function FindRecipePage() {
     const [cart, setCart] = useContext(MyCart);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState({});
+    const navigation = useNavigation();
     const searchRecipe = () => {
         console.log("Searching for recipes...");
         if (cart.length === 0) {
@@ -21,7 +28,7 @@ export default function FindRecipePage() {
             return;
         }
         // https://api.spoonacular.com/recipes/findByIngredients?ingredients=${cart.map((i) => i.name).join(",+")}&number=10&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1
-        fetch(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${cart.map((i) => i.name).join(",+")}&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1&addRecipeInstructions=true&number=10&fillIngredients=true&instructionsRequired=true&limitLicense=true&sort=max-used-ingredients&sortDirection=desc&query= `,
+        fetch(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${cart.map((i) => i.name).join(",+")}&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1&addRecipeInstructions=true&addRecipeInformation=true&number=10&fillIngredients=true&instructionsRequired=true&limitLicense=true&sort=max-used-ingredients&sortDirection=desc&query= `,
             {
                 method: 'GET',
                 headers: {
@@ -38,7 +45,7 @@ export default function FindRecipePage() {
             )
             .then((data) => {
                 setRecipeData(data.results);
-                console.log("Results have been found: ", recipeData);
+                // console.log("Results have been found: ", recipeData);
             });
 
     }
@@ -49,10 +56,17 @@ export default function FindRecipePage() {
     }
 
     const onOpen = (recipe) => {
+        // console.log("Opening modal for recipe: ", recipe);
         setSelectedRecipe(recipe);
-        console.log(recipe.summary);
         setModalVisible(true);
     }
+
+    const onOpenFullPage = () => {
+        onClose();
+        navigation.navigate('Recipe Information', { data: selectedRecipe });
+    }
+
+    
     return (
         <View>
             <FindRecipe searchRecipe={searchRecipe} />
@@ -75,11 +89,17 @@ export default function FindRecipePage() {
                             This recipe uses {selectedRecipe.usedIngredientCount} of your ingredients.
                         </Text>
                         <Text style={styles.cardText}>
-                            You are missing {selectedRecipe.missedIngredientsCount} ingredients.
+                            You are missing {selectedRecipe.missedIngredientCount} ingredients.
                         </Text>
-                        <Pressable style={styles.closeButton} onPress={onClose}>
-                            <Text style={styles.closeButtonText}>Close</Text>
-                        </Pressable>
+                        <View style={styles.row}>
+                            <Pressable style={styles.learnMoreButton} onPress={onOpenFullPage}>
+                                <Text style={styles.buttonText}>View Full Recipe</Text>
+                            </Pressable>
+                            <Pressable style={styles.closeButton} onPress={onClose}>
+                                <Text style={styles.buttonText}>Close</Text>
+                            </Pressable>
+                        </View>
+    
                     </View>
                 </View>
             </Modal>
@@ -110,8 +130,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 10,
         borderRadius: 5,
+        marginHorizontal: 10,
     },
-    closeButtonText: {
+    learnMoreButton: {
+        marginTop: 10,
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        marginHorizontal: 10,
+    },
+    buttonText: {
         color: '#fff',
     },
     modalOverlay: {
@@ -120,4 +148,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+     
+    }
 });
