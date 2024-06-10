@@ -11,8 +11,21 @@ const API_KEY = '0ca4a2ed351b48c4b86c89ea04848b8c';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+
 const SearchResultItem = ({ item, addCart }) => {
     const [cart, setCart] = useContext(MyCart);
+
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    const getTitle = (title) => {
+        const capitalizedTitle = capitalizeFirstLetter(title);
+        return capitalizedTitle.length > 26
+            ? `${capitalizedTitle.substring(0, 26)}...`
+            : capitalizedTitle;
+    };
     return (
         <View style={styles.container}>
             <Image
@@ -20,9 +33,7 @@ const SearchResultItem = ({ item, addCart }) => {
                 style={styles.image}
             />
             <Text style={styles.text}>{
-                item.name.length > 24
-                    ? `${item.name.substring(0, 24)}...`
-                    : item.name
+                getTitle(item.name)
             }
             </Text>
             <Pressable onPress={() => addCart(item)}>

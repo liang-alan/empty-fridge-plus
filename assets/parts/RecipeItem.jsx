@@ -39,6 +39,18 @@ const RecipeItem = ({ item, openModal }) => {
         setInfoVisible(false);
     }
 
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    const getTitle = (title) => {
+        const capitalizedTitle = capitalizeFirstLetter(title);
+        return capitalizedTitle.length > 26
+            ? `${capitalizedTitle.substring(0, 26)}...`
+            : capitalizedTitle;
+    };
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => openModal(item)} style={styles.row}>
@@ -46,12 +58,7 @@ const RecipeItem = ({ item, openModal }) => {
                 source={{ uri: `${item.image}` }}
                 style={styles.image}
             />
-            <Text style={styles.text}>{
-                item.title.length > 26
-                    ? `${item.title.substring(0, 26)}...`
-                    : item.title
-                }
-            </Text>
+            <Text style={styles.text}>{ getTitle(item.title)}  </Text>
 
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handlePress()} style={styles.percents}>

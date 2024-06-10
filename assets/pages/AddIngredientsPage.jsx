@@ -26,16 +26,12 @@ export default function AddIngredientsPage() {
         )
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data.results);
-                setIngredients(data.results);
+                // Capitalize the first letter of each ingredient
+                setIngredients(data.results );
 
             });
 
         Keyboard.dismiss();
-    };
-
-    const clearSearch = () => {
-
     };
 
 

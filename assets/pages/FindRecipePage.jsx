@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardTitle: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: 'bold',
         marginVertical: 10,
     },
