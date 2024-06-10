@@ -4,6 +4,7 @@ import AddIngredientsPage from './assets/pages/AddIngredientsPage';
 import MyIngredientsPage from './assets/pages/MyIngredientsPage';
 import RecipePageContainer from './assets/pages/RecipePageContainer';
 import MyCart from './assets/scripts/MyCart';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // setup stack navigator
@@ -16,6 +17,7 @@ const App = () => {
 
   return (
     <MyCart.Provider value={[cart, setCart]}>
+      <GestureHandlerRootView>
       <NavigationContainer>
         <SafeAreaView style={styles.container}>
           <Tab.Navigator
@@ -38,6 +40,7 @@ const App = () => {
           </Tab.Navigator>
         </SafeAreaView>
       </NavigationContainer>
+      </GestureHandlerRootView>
     </MyCart.Provider>
   );
 };
