@@ -14,6 +14,7 @@ const SearchResults = ({ num, data }) => {
             return;
         }
         console.log("Added to cart: ", item);
+        console.log("Cart: ", cart);
         setCart(prevcart => [...prevcart, item]);
 
     }

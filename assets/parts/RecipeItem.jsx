@@ -49,6 +49,7 @@ const RecipeItem = ({ item, openModal }) => {
         return capitalizedTitle.length > 26
             ? `${capitalizedTitle.substring(0, 26)}...`
             : capitalizedTitle;
+        
     };
 
     return (

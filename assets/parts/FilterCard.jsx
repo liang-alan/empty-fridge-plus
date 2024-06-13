@@ -4,18 +4,23 @@ import { useState, useEffect, useContext } from 'react';
 
 import MyPreferences from '../scripts/MyPreferences';
 
-const FilterCard = ({ name }) => {
+const FilterCard = ({ name, type }) => {
     const [preferences, setPreferences] = useContext(MyPreferences);
 
-    const [checked, setChecked] = useState(preferences[name.toLowerCase()]);
+    const [checked, setChecked] = useState(preferences[type][name.toLowerCase()]);
 
     const onPress = () => {
         setChecked(!checked);
+       
+
 
         setPreferences((prev) => {
             return {
                 ...prev,
-                [name.toLowerCase()]: !prev[name.toLowerCase()],
+                [type]: {
+                    ...prev[type],
+                    [name.toLowerCase()]: !prev[type][name.toLowerCase()],
+                }
             };
         });
         
@@ -42,7 +47,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        minWidth: 100,
     },
 });
 

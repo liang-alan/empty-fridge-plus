@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
-import RecipeInfoPage from './RecipeInfoPage';
 
 const { width } = Dimensions.get('window');
 
@@ -29,8 +28,37 @@ export default function FindRecipePage() {
             console.log("Cart is empty");
             return;
         }
-        // https://api.spoonacular.com/recipes/findByIngredients?ingredients=${cart.map((i) => i.name).join(",+")}&number=10&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1
-        fetch(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${cart.map((i) => i.name).join(",+")}&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1&addRecipeInstructions=true&addRecipeInformation=true&number=10&fillIngredients=true&instructionsRequired=true&limitLicense=true&sort=max-used-ingredients&sortDirection=desc&query= `,
+        
+        // turn preferences into a query string
+        let preferencesString = "";
+        Object.keys(searchPreferences).forEach((prefType) => {
+            if (prefType === "other") {
+                Object.keys(searchPreferences[prefType]).forEach((pref) => {
+                    if (searchPreferences[prefType][pref]) {
+                        switch (pref) {
+                            case "ignore pantry":
+                                preferencesString += "&ignorePantry=true,";
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                    }
+                });
+            } else {
+                preferencesString += `&${prefType}=`;
+                Object.keys(searchPreferences[prefType]).forEach((pref) => {
+                    if (searchPreferences[prefType][pref]) {
+                        preferencesString += `${pref},`;
+                    }
+                });
+            }
+        });
+
+        console.log("Preferences string: ", preferencesString);
+
+
+        fetch(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${cart.map((i) => i.name).join(",+")}&apiKey=0ca4a2ed351b48c4b86c89ea04848b8c&ranking=1&addRecipeInstructions=true&addRecipeInformation=true&number=10&fillIngredients=true&instructionsRequired=true&limitLicense=true&sort=max-used-ingredients&sortDirection=desc${preferencesString}&query= `,
             {
                 method: 'GET',
                 headers: {

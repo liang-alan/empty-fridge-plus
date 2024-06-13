@@ -8,8 +8,11 @@ const MyPreferences = createContext({
 });
 
 export const initPreferences = {
-    vegetarian: false,
-    vegan: false,
+    "diet": {},
+    "intolerances": {},
+    "cuisine": {},
+    "other": {},
+    
 };
 
 export default MyPreferences;

@@ -5,7 +5,25 @@ import { useNavigation } from '@react-navigation/native';
 const RecipeInfoPage = (data) => {
     const navigation = useNavigation();
 
-    console.log("Recipe Info Page: ", data.route.params.data);
+    const uniqueIngredients = (ingredients) => {
+        let unique = [];
+        ingredients.forEach((ingredient) => {
+            // check if something with that ID is already in unique
+            console.log(ingredient.id)
+            let found = false;
+            unique.forEach((uniqueIngredient) => {
+                if (uniqueIngredient.id === ingredient.id) {
+                    found = true;
+                }
+            });
+            if (!found) {
+                unique.push(ingredient);
+            }
+        });
+        return unique;
+        // return ingredients;
+    }  
+
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.headingText}>{data.route.params.data.title}</Text>
@@ -14,7 +32,7 @@ const RecipeInfoPage = (data) => {
                 <Text style={styles.sourceText}>Source: {data.route.params.data.creditsText} </Text>
             </TouchableOpacity>
             <Text style={styles.headingText}>Ingredients:</Text>
-            {data.route.params.data.extendedIngredients.map((ingredient) => {
+            {uniqueIngredients(data.route.params.data.extendedIngredients).map((ingredient) => {
                 return (
                     <View key={ingredient.id} style={styles.row}>
                         <Text style={styles.bulletPoint}>{'\u2022'}</Text>
@@ -25,7 +43,7 @@ const RecipeInfoPage = (data) => {
             <Text style={styles.headingText}>Instructions:</Text>
             {data.route.params.data.analyzedInstructions[0].steps.map((step) => {
                 return (
-                    <View key={step.number} style={styles.row}>
+                    <View key={data.route.params.data.title + step.number} style={styles.row}>
                         <Text style={styles.ingredientText}>{step.number +". "+  step.step}</Text>
                     </View>
                 );
