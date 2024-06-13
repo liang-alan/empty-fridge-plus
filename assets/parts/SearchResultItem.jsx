@@ -30,7 +30,6 @@ const SearchResultItem = ({ item, addCart }) => {
 
     const onSwipeRight = () => {
         setCart((prevcart) => prevcart.filter((i) => i.id !== item.id));
-        
     }
 
     const renderRightActions = (progress, drag) => {
@@ -45,8 +44,8 @@ const SearchResultItem = ({ item, addCart }) => {
         <Swipeable onSwipeableOpen={onSwipeRight}
             renderRightActions={renderRightActions}
             overshootRight={false}
-            friction={2}
-            rightThreshold={60}
+            friction={1.5}
+            rightThreshold={50}
             dragOffsetFromRightEdge={40}
         >
             <View style={styles.container}>

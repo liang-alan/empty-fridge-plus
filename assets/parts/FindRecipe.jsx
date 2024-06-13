@@ -13,7 +13,8 @@ const FindRecipe = ({ searchRecipe }) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
+        marginHorizontal: 5,
+        
     },
     primaryButton: {
         backgroundColor: 'green',

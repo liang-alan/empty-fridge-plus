@@ -4,6 +4,7 @@ import {useState, useContext, useEffect} from 'react';
 import FindRecipe from '../parts/FindRecipe';
 import FindRecipeResults from '../parts/FindRecipeResults';
 import MyCart from '../scripts/MyCart';
+import MyPreferences from '../scripts/MyPreferences';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ export default function FindRecipePage() {
     const [cart, setCart] = useContext(MyCart);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState({});
+    const [searchPreferences, setSearchPreferences] = useContext(MyPreferences);
     const navigation = useNavigation();
     const searchRecipe = () => {
         console.log("Searching for recipes...");
@@ -66,10 +68,21 @@ export default function FindRecipePage() {
         navigation.navigate('Recipe Information', { data: selectedRecipe });
     }
 
+    const openPreferences = () => {
+        navigation.navigate('Filters', {});
+        console.log("Opening preferences...");
+        console.log("Preferences: ", searchPreferences);
+    }
+
     
     return (
         <View>
             <FindRecipe searchRecipe={searchRecipe} />
+            <View style={styles.rightAlign}>
+                <Pressable onPress={openPreferences}>
+                    <Text style={{color : 'blue'}}>Set Search Filters</Text>
+                </Pressable>
+            </View>
             <Modal
                 transparent={true}
                 visible={modalVisible}
@@ -152,5 +165,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
      
+    },
+    rightAlign: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        // Ensure the rightAlign view takes up the full width of the container
+        width: '100%',
+        paddingRight: 15,
     }
 });
