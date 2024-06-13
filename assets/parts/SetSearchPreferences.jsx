@@ -41,7 +41,7 @@ const SetSearchPreferences = (props) => {
                 <FilterCard name="Tree Nut" type="intolerances" />
                 <FilterCard name="Wheat" type="intolerances" />
             </View>
-            <Text style={styles.title}>Exclude Cuisines</Text>
+            <Text style={styles.title}>Include Cuisines</Text>
             <View style={styles.row}>
                 <FilterCard name="African" type="cuisine"/>
                 <FilterCard name="Asian" type="cuisine"/>
