@@ -12,4 +12,5 @@ as well as reading documentation, using APIs, and ultimately deploying an app, f
 7. Perform user testing
 8. Reiterate app based on user testing
 
+Watch the Demo Video:
 [![Watch the video](https://img.youtube.com/vi/gHc6UphWd2Q/maxresdefault.jpg)](https://youtu.be/gHc6UphWd2Q)
