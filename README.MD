@@ -11,3 +11,5 @@ as well as reading documentation, using APIs, and ultimately deploying an app, f
 6. Allow users to create reviews for recipes that can be seen by other users as well.
 7. Perform user testing
 8. Reiterate app based on user testing
+
+[![Watch the video](https://img.youtube.com/vi/gHc6UphWd2Q/maxresdefault.jpg)](https://youtu.be/gHc6UphWd2Q)
